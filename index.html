@@ -352,4 +352,102 @@
 </script>
 
 </body>
-</html>
+</html><div class="container">
+
+<h1>🔥 SPORTY FIXED GAMES</h1>
+
+<div class="card">
+    <h3>Team A vs Team B</h3>
+
+    <!-- PAYSTACK -->
+    <button class="paystack-btn"
+    onclick="payWithPaystack()">
+        Pay with Paystack
+    </button>
+
+    <!-- MOMO -->
+    <button class="momo-btn"
+    onclick="openMoMo()">
+        Pay with MTN MoMo (Manual)
+    </button>
+</div>
+
+<!-- MOMO SECTION -->
+<div id="momoSection" class="card hidden">
+
+<h3>📱 MTN MoMo Payment</h3>
+
+<p><b>Number:</b> 0541799703</p>
+<p><b>Name:</b> Alfred Addo</p>
+<p><b>Network:</b> MTN Ghana</p>
+
+<input id="name" placeholder="Full Name"><br>
+<input id="phone" placeholder="Phone Number"><br>
+<input id="tx" placeholder="Transaction ID"><br>
+
+<button class="momo-btn" onclick="sendToTelegram()">
+Submit Payment
+</button>
+
+</div>
+
+</div>
+
+<script>
+
+/* ================= PAYSTACK ================= */
+function payWithPaystack(){
+    let handler = PaystackPop.setup({
+        key: "YOUR_PUBLIC_KEY",
+        email: "user@gmail.com",
+        amount: 1000,
+        currency: "GHS",
+
+        callback: function(response){
+            alert("Payment Successful: " + response.reference);
+        }
+    });
+
+    handler.openIframe();
+}
+
+/* ================= MOMO UI ================= */
+function openMoMo(){
+    document.getElementById("momoSection").classList.remove("hidden");
+}
+
+/* ================= TELEGRAM SETUP ================= */
+const BOT_TOKEN = "YOUR_BOT_TOKEN";
+const CHAT_ID = "YOUR_CHAT_ID";
+
+/* ================= SEND MOMO DATA ================= */
+function sendToTelegram(){
+
+    let name = document.getElementById("name").value;
+    let phone = document.getElementById("phone").value;
+    let tx = document.getElementById("tx").value;
+
+    if(!name || !phone || !tx){
+        alert("Fill all fields");
+        return;
+    }
+
+    let message =
+`NEW MOMO PAYMENT
+Name: ${name}
+Phone: ${phone}
+Transaction ID: ${tx}`;
+
+    fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            chat_id: CHAT_ID,
+            text: message
+        })
+    });
+
+    alert("Payment submitted successfully. Wait for approval.");
+}
