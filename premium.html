@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GoalMint Premium Access</title>
+</head>
+<body>
+<h1>🔒 Premium Access System</h1>
+<div id="paymentSection">
+  <h3>💰 Pay via MTN Mobile Money</h3>
+  <p><b>Number:</b> 0541799703</p>
+  <p><b>Name:</b> Alfred Addo</p>
+  <p><b>Amount:</b> 10 GHS</p>
+  <hr>
+  <h3>📩 Enter Payment Details</h3>
+
+Submit & Get Access
+
+</div>
+<hr>
+<div id="accessSection" style="display:none;">
+  <h2>🔥 PREMIUM TIPS UNLOCKED</h2>
+  <ul>
+    <li>Correct Score: 2-1 Home Win</li>
+    <li>BTTS: YES</li>
+    <li>Over 2.5 Goals Combo</li>
+  </ul>
+</div>
+<script>
+// Generate random access code
+function generateCode() {
+  return "GM-" + Math.floor(Math.random() * 999999);
+}
+function activateAccess() {
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+  let tx = document.getElementById("tx").value;
+  if (!name || !phone || !tx) {
+    alert("Please fill all fields");
+    return;
+  }
+  // AUTO ACCESS (NO APPROVAL)
+  let code = generateCode();
+  // Save access locally
+  localStorage.setItem("premiumAccess", code);
+  alert("Payment received! Your Access Code: " + code);
+  document.getElementById("paymentSection").style.display = "none";
+  document.getElementById("accessSection").style.display = "block";
+}
+// Auto-check if user already has access
+window.onload = function() {
+  let saved = localStorage.getItem("premiumAccess");
+  if (saved) {
+    document.getElementById("paymentSection").style.display = "none";
+    document.getElementById("accessSection").style.display = "block";
+  }
+}
+</script>
+</body>
+</html>
